@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 04:22:59 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 05:08:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_split(char *str, t_params *params)
 			ft_parse(cmd, params);
 		}
 	}
+	params->commands = ft_lstrev(params->commands);
 }
 
 int		ft_func1(int i, char *line)
@@ -221,7 +222,11 @@ int		ft_countargs(char **args)
 
 int		ft_is_redirection(char *str)
 {
-	return (ft_strstr(str, ">") || ft_strstr(str, ">>"));
+	if (ft_strstr(str, ">"))
+		return (1);
+	if (ft_strstr(str, ">>"))
+		return (2);
+	return (0);
 }
 
 int		ft_is_aggregation(char *str)
@@ -259,9 +264,10 @@ int		ft_lex(char *str, t_list **lst)
 					{
 						outfile = (t_outfile *)malloc(sizeof(t_outfile));
 						outfile->name = ft_strdup(commands[i + 1]);
+						outfile->open_mode = ft_is_redirection(commands[i]) == 1 ? O_APPEND|O_CREAT|O_WRONLY : O_CREAT|O_WRONLY|O_TRUNC;
 						list = ft_lstnew(NULL, 0);
 						list->content = outfile;
-						ft_lstadd(&command->outfile, list);
+						ft_lstadd(&command->outlist, list);
 					}
 					printf("redirect to : %s\n", commands[i + 1]);
 					i += 2;
@@ -284,7 +290,7 @@ int		ft_lex(char *str, t_list **lst)
 			command = (t_command *)malloc(sizeof(t_command));
 			list = ft_lstnew(NULL, 0);
 			command->argv = ft_get_args(commands, i);
-			command->outfile = NULL;
+			command->outlist = NULL;
 			i += ft_countargs(command->argv) - 1;
 			list->content = command;
 			ft_lstadd(lst, list);
@@ -325,27 +331,4 @@ void ft_parse(char *line, t_params *params)
 	lst = ft_lstnew(NULL, 0);
 	lst->content = commands;
 	ft_lstadd(&params->commands, lst);
-	while (params->commands)
-	{
-		t_list *lst = params->commands->content;
-		while (lst)
-		{
-			t_command *cmd = (t_command *)lst->content;
-			printf("%s\n", cmd->argv[0]);
-			while (cmd->outfile)
-			{
-				t_outfile *out = cmd->outfile->content;
-				printf("   out : %s\n", out->name);
-				cmd->outfile = cmd->outfile->next;
-			}
-			int i = 1;
-			while(cmd->argv[i])
-			{
-				printf("\t%s\n", cmd->argv[i]);
-				i++;
-			}
-			lst = lst->next;
-		}
-		params->commands = params->commands->next;
-	}
 }

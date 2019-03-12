@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/06 19:46:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 05:28:33 by sid-bell         ###   ########.fr       */
+/*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/03/12 05:23:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_21sh.h"
 
-int main(int argc, char **argv, char **env)
+void	ft_env(t_list *list)
 {
-	char		*line;
-	t_params	params;
+	char	**env;
+	int		i;
 
-	argc = 0;
-	argv = NULL;
-	params.env = NULL;
-	params.commands = NULL;
-	ft_parse_env(env, &params);
-	ft_putstr("$> ");
-	while (get_next_line(0, &line) > 0)
+	i = 0;
+	env = ft_get_env(list);
+	while (env && env[i])
 	{
-		ft_handle_qoutes(&line);
-		ft_split(line, &params);
-		ft_init_exec(&params);
-		ft_putstr("$> ");
+		ft_putendl(env[i]);
+		free(env[i]);
+		i++;
 	}
+	free(env);
 }

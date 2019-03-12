@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/08 15:57:44 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 05:06:58 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char		*ft_join_qoutes(char *line)
 {
 	char	*str;
 	char	*tmp;
-	int		len;
 	int		i;
 	int		qoute[2];
 
@@ -97,12 +96,11 @@ char		*ft_join_qoutes(char *line)
 	return (line);
 }
 
-void		ft_handle_qoutes(char *line, t_params *params)
+void		ft_handle_qoutes(char **line)
 {
-	line = ft_joinargs(line);
-	ft_strrev(line);
-	line = ft_joinargs(line);
-	ft_strrev(line);
-	line = ft_join_qoutes(line);
-	ft_split(line, params);
+	*line = ft_joinargs(*line);
+	ft_strrev(*line);
+	*line = ft_joinargs(*line);
+	ft_strrev(*line);
+	*line = ft_join_qoutes(*line);
 }
