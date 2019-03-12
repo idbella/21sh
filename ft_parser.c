@@ -6,11 +6,16 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 05:08:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 07:31:02 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_21sh.h"
+
+int		ft_is_aggregation(char *str)
+{
+	return (ft_strstr(str, ">&") || 0);
+}
 
 char	*ft_insert_str(char *str1, char *filler, int index)
 {
@@ -154,30 +159,43 @@ int ft_is_token(char *str)
 	return (0);
 }
 
-char	**ft_get_args(char **args, int i)
+char	**ft_get_args(char **args, int *i)
 {
 	int		start;
 	int		count;
 	char	**result;
 	int		index;
+	int		skip;
+	int		i2;
 
-	start = i;
-	while (args[i])
+	skip = 0;
+	start = *i;
+	i2 = *i;
+	while (args[i2])
 	{
-		if (ft_is_token(args[i]))
-			break;
-		i++;
+		if (ft_is_token(args[i2]))
+		{
+			if (ft_is_aggregation(args[i2]))
+				skip++;
+			else
+				break;
+		}
+		i2++;
 	}
-	count = i - start;
+	count = i2 - start - skip;
 	if (count <= 0)
 		return (NULL);
 	result = (char **)malloc(sizeof(char *) * count + 1);
 	index = 0;
-	while (start < i)
+	*i = i2 - start - 1;
+	while (start < i2)
 	{
-		result[index] = args[start];
+		if (!ft_is_aggregation(args[start]))
+		{
+			result[index] = args[start];
+			index++;
+		}
 		start++;
-		index++;
 	}
 	result[index] = NULL;
 	return (result);
@@ -229,11 +247,6 @@ int		ft_is_redirection(char *str)
 	return (0);
 }
 
-int		ft_is_aggregation(char *str)
-{
-	return (ft_strstr(str, ">&") || 0);
-}
-
 int		ft_lex(char *str, t_list **lst)
 {
 	char		**commands;
@@ -269,14 +282,14 @@ int		ft_lex(char *str, t_list **lst)
 						list->content = outfile;
 						ft_lstadd(&command->outlist, list);
 					}
-					printf("redirect to : %s\n", commands[i + 1]);
 					i += 2;
 					while (commands[i] && !ft_is_token(commands[i]))
-					{
-						printf("%d : skipping : %s\n", i, commands[i]);
 						i++;
-					}
 					i--;
+				}
+				if (ft_is_aggregation(commands[i]))
+				{
+					printf("::%s\n", commands[i]);
 				}
 				i++;
 			}
@@ -289,9 +302,8 @@ int		ft_lex(char *str, t_list **lst)
 		{
 			command = (t_command *)malloc(sizeof(t_command));
 			list = ft_lstnew(NULL, 0);
-			command->argv = ft_get_args(commands, i);
+			command->argv = ft_get_args(commands, &i);
 			command->outlist = NULL;
-			i += ft_countargs(command->argv) - 1;
 			list->content = command;
 			ft_lstadd(lst, list);
 		}
