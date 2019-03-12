@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 05:36:22 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/13 00:01:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,31 @@ static void ft_getoufile(t_command *cmd, t_params *params)
 	}
 }
 
-void	ft_run(t_params *params, t_command *cmd)
+int		ft_run(t_params *params, t_command *cmd)
 {
-	params->pid = fork();
-	if (!params->pid)
+	char	*file;
+
+g_params = params;
+	if ((file = ft_find_file(cmd->argv[0], params->env)))
 	{
-		execv(cmd->argv[0],cmd->argv);
-		ft_putendl(cmd->argv[0]);
-		ft_putendl("error");
-		exit(1);
+		params->pid = fork();
+		if (!params->pid)
+		{
+			execv(file, cmd->argv);
+			ft_putendl(cmd->argv[0]);
+			ft_putendl("Unknown error");
+			exit(1);
+		}
+		else
+		{
+			return (1);
+		}
+	}
+	else
+	{
+		ft_putstr_fd("21sh: command not found: ", params->savedfd[1]);
+		ft_putendl_fd(cmd->argv[0], params->savedfd[1]);
+		return (0);
 	}
 }
 
@@ -94,6 +110,7 @@ void	ft_exec(t_params *params, t_list *commands)
 	while (commands)
 	{
 		cmd = (t_command *)commands->content;
+		
 		dup2(params->currentfd[0], 0);
 		close(params->currentfd[0]);
 		if (cmd->outlist)
@@ -114,8 +131,14 @@ void	ft_exec(t_params *params, t_list *commands)
 		if (ft_isbuilt_in(cmd->argv[0]))
 			ft_built_in(cmd, params);
 		else
-			ft_run(params, cmd);
+		{
+			if (!ft_run(params, cmd))
+				break ;
+		}
+		
 		commands = commands->next;
 	}
+	ft_putendl_fd("<<<<", params->savedfd[1]);
 		waitpid(params->pid, NULL,0);
+	ft_putendl_fd(">>>>", params->savedfd[1]);
 }

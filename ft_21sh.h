@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:40:24 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 23:54:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <sys/stat.h>
 
+typedef struct stat	t_stat;
 typedef struct	s_command
 {
 	char	**argv;
@@ -42,6 +44,7 @@ typedef struct	s_params
 	char		*infile;
 	int			pid;
 }				t_params;
+t_params *g_params;
 typedef struct		s_env
 {
 	char			*key;
@@ -79,4 +82,7 @@ int				ft_isvalidred(char *str);
 int				ft_is_redirection(char *str);
 int				ft_lex(char *str, t_list **lst);
 void			ft_fd_or_file(char **line, int i);
+char			*ft_find_file(char *file, t_list *list);
+char			**ft_getpaths(t_list *list);
+t_stat			*ft_exist(char *file);
 #endif

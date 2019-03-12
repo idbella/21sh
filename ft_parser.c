@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:15:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 23:48:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void ft_parse(char *line, t_params *params)
 	qoute[0] = 0;
 	qoute[1] = 0;
 	i2 = 0;
+	
 	while (line[++i])
 	{
 		if (!qoute[0] && !qoute[1] && ft_is_special_key(line[i]) && line[i] != '&')
@@ -108,6 +109,7 @@ void ft_parse(char *line, t_params *params)
 		ft_putendl("21sh: parse error.");
 		return ;
 	}
+	
 	lst = ft_lstnew(NULL, 0);
 	lst->content = commands;
 	ft_lstadd(&params->commands, lst);

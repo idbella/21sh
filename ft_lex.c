@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:41:05 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 23:47:28 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int		ft_lex(char *str, t_list **lst)
 	printf("line = %s\n", str);
 	commands = ft_strsplit(str, -1);
 	i = 0;
+	command = NULL;
+	
 	while (commands[i])
 	{
 		if (ft_is_token(commands[i]))
@@ -56,6 +58,18 @@ int		ft_lex(char *str, t_list **lst)
 				if (ft_is_aggregation(commands[i]))
 				{
 					printf("::%s\n", commands[i]);
+					if (command)
+					{
+						outfile = (t_outfile *)malloc(sizeof(t_outfile));
+						outfile->fd_src = ft_get_fd_src(commands[i]);
+						printf("fd_src = %d\n", outfile->fd_src);
+						outfile->fd_dest = ft_get_fd_dest(commands[i]);
+						printf("fd_dest = %d\n", outfile->fd_dest);
+						outfile->name = NULL;
+						list = ft_lstnew(NULL, 0);
+						list->content = outfile;
+						ft_lstadd(&command->outlist, list);
+					}
 				}
 				i++;
 			}
