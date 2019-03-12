@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 05:36:12 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 22:40:24 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef struct	s_outfile
 {
 	char		*name;
 	int			open_mode;
-	int			fd;
+	int			fd_src;
+	int			fd_dest;
 }				t_outfile;
 
 typedef struct	s_params
@@ -66,4 +67,16 @@ void			ft_built_in(t_command *cmd, t_params *params);
 void			ft_echo(t_command *cmd);
 void			ft_exec(t_params *params, t_list *commands);
 void    		ft_init_exec(t_params *params);
+int 			ft_is_token(char *str);
+int				ft_countargs(char **args);
+char			*ft_insert_str(char *str1, char *filler, int index);
+void			ft_split(char *str, t_params *params);
+char			**ft_get_args(t_command *cmd, char **args, int *i);
+int				ft_is_aggregation(char *current);
+int				ft_get_fd_src(char *str);
+int				ft_get_fd_dest(char *str);
+int				ft_isvalidred(char *str);
+int				ft_is_redirection(char *str);
+int				ft_lex(char *str, t_list **lst);
+void			ft_fd_or_file(char **line, int i);
 #endif
