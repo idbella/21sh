@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:10:05 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:41:20 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/12 23:02:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	**ft_get_args(t_command *cmd, char **args, int *i)
 					printf("fd_src = %d\n", outfile->fd_src);
 					outfile->fd_dest = ft_get_fd_dest(args[i2]);
                     printf("fd_dest = %d\n", outfile->fd_dest);
+					outfile->name = NULL;
 					list = ft_lstnew(NULL, 0);
 					list->content = outfile;
 					ft_lstadd(&cmd->outlist, list);
