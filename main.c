@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 19:46:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/14 06:05:05 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:41:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int main(int argc, char **argv, char **env)
 	argv = NULL;
 	params.env = NULL;
 	params.commands = NULL;
+	params.infile = NULL;
 	ft_parse_env(env, &params);
 	ft_putstr("$> ");
 	while (get_next_line(0, &line) > 0)

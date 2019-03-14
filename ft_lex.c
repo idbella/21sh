@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/14 05:57:15 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:21:59 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		ft_lex(char *str, t_list **lst)
 						outfile = (t_outfile *)malloc(sizeof(t_outfile));
 						outfile->name = ft_strdup(commands[i + 1]);
 						outfile->fd_src = ft_get_fd_src(commands[i]);
-						outfile->open_mode = ft_is_redirection(commands[i]) == 1 ? O_APPEND|O_CREAT|O_WRONLY : O_CREAT|O_WRONLY|O_TRUNC;
+						outfile->open_mode = ft_is_redirection(commands[i]) == 2 ? O_APPEND|O_CREAT|O_WRONLY : O_CREAT|O_WRONLY|O_TRUNC;
 						list = ft_lstnew(NULL, 0);
 						list->content = outfile;
 						ft_lstadd(&command->outlist, list);
@@ -61,12 +61,10 @@ int		ft_lex(char *str, t_list **lst)
 					{
 						outfile = (t_outfile *)malloc(sizeof(t_outfile));
 						outfile->fd_src = ft_get_fd_src(commands[i]);
-						//printf("fd_src = %d\n", outfile->fd_src);
 						outfile->fd_dest = ft_get_fd_dest(commands[i]);
 						outfile->name = NULL;
 						if (outfile->fd_dest == -1)
 							outfile->name = ft_strdup("/dev/null");
-						//printf("fd_dest = %d\n", outfile->fd_dest);
 						list = ft_lstnew(NULL, 0);
 						list->content = outfile;
 						ft_lstadd(&command->outlist, list);

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 23:48:43 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:21:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int		ft_func2(int i, int i2, char **line)
 
 int		ft_is_redirection(char *str)
 {
-	if (ft_strstr(str, ">"))
-		return (1);
 	if (ft_strstr(str, ">>"))
 		return (2);
+	if (ft_strstr(str, ">"))
+		return (1);
 	return (0);
 }
 
