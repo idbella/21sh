@@ -6,11 +6,37 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 19:46:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 23:49:12 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/14 06:05:05 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_21sh.h"
+
+void	ft_print(t_list *list)
+{
+	t_command	*cmd;
+	t_list  	*lst;
+	t_outfile	*out;
+
+	while (list)
+	{
+		cmd = (t_command *)list->content;
+		printf("\n\n\n\nname = %s\n", cmd->argv[0]);
+		lst = cmd->outlist;
+		while (lst)
+		{
+			out = (t_outfile *)lst->content;
+			if (out->name)
+				printf("redirect fd %d to %s\n", out->fd_src, out->name);
+			else
+			{
+				printf("\tredirect fd %d to fd %d\n", out->fd_src, out->fd_dest);
+			}
+			lst = lst->next;
+		}
+		list = list->next;
+	}
+}
 
 int main(int argc, char **argv, char **env)
 {
@@ -28,6 +54,8 @@ int main(int argc, char **argv, char **env)
 		ft_handle_qoutes(&line);
 		ft_split(line, &params);
 		ft_init_exec(&params);
+		//ft_print((t_list *)params.commands->content);
 		ft_putstr("$> ");
+		params.commands = NULL;
 	}
 }
