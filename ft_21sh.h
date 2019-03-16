@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/14 04:33:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/16 07:08:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct	s_params
 	int			currentfd[3];
 	char		*infile;
 	int			pid;
+	int			err;
 }				t_params;
 
 typedef struct		s_env

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/14 21:21:53 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/16 06:15:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void ft_parse(char *line, t_params *params)
 			i2 = ft_func1(i, line);
 			if ((i = ft_func2(i, i2, &line)) < 0)
 			{
-				ft_putendl("21sh: parse error.");
+				ft_putendl("21sh: syntax error.");
 				return ;
 			}
 		}

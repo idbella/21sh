@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:10:05 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/14 20:51:24 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/16 06:08:27 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	**ft_get_args(t_command *cmd, char **args, int *i)
 	{
 		if (ft_is_token(args[i2]))
 		{
+			if (!ft_isvalidred(args[i2]))
+				return (NULL);
 			if (ft_is_aggregation(args[i2]))
 			{
 				if (cmd)
