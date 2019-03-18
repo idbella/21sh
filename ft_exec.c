@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/16 07:26:34 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/18 08:24:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 	{
 		outfile = (t_outfile *)list->content;
 		file = outfile->name;
-		ft_putendl_fd(file, params->savedfd[1]);
-		ft_putnbr_fd(params->currentfd[outfile->fd_src], params->savedfd[1]);
-		ft_putchar_fd('\n', params->savedfd[1]);
 		if ((outfile->fd_src == 1 || outfile->fd_src == 2) && file)
 		{
 			if ((params->currentfd[outfile->fd_src] = open(file, outfile->open_mode, 0777)) < 0)
@@ -39,9 +36,6 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 				break ;
 			}
 		}
-		ft_putendl_fd(file, params->savedfd[1]);
-		ft_putnbr_fd(params->currentfd[outfile->fd_src], params->savedfd[1]);
-		ft_putchar_fd('\n', params->savedfd[1]);
 		if (!file)
 		{
 			src = outfile->fd_src;

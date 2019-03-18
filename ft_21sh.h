@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/16 07:08:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/18 08:15:48 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,6 @@ void			ft_fd_or_file(char **line, int i);
 char			*ft_find_file(char *file, t_list *list);
 char			**ft_getpaths(t_list *list);
 t_stat			*ft_exist(char *file);
+void			ft_addfile(t_command *command, char **commands, int i);
+void			ft_addaggr(t_command *command, char *cmd);
 #endif

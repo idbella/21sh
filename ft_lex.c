@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/16 07:05:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/18 08:23:56 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,11 @@ int		ft_lex(char *str, t_list **lst)
 	int 		i;
 	t_list		*list;
 	t_command	*command;
-	t_outfile	*outfile;
 
 	str = ft_remove_wsapces(str);
 	commands = ft_strsplit(str, -1);
 	i = 0;
 	command = NULL;
-	printf("%s\n", str);
 	while (commands[i])
 	{
 		if (ft_is_token(commands[i]))
@@ -74,7 +72,6 @@ int		ft_lex(char *str, t_list **lst)
 					{
 						if (commands[i][0] == '&')
 						{
-							printf("here\n");
 							commands[i][0] = '1';
 							ft_addfile(command, commands, i);
 							ft_addaggr(command, "2>&1");
@@ -82,6 +79,9 @@ int		ft_lex(char *str, t_list **lst)
 						else
 							ft_addfile(command, commands, i);
 					}
+					else
+						open(commands[i + 1], ft_is_redirection(commands[i]) == 2 ? O_APPEND|O_CREAT|O_WRONLY : O_CREAT|O_WRONLY|O_TRUNC, 0777);
+
 					i += 2;
 					while (commands[i] && !ft_is_token(commands[i]))
 						i++;
