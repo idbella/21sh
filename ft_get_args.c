@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:10:05 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/18 08:22:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/18 12:06:26 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,33 @@
 
 char	**ft_get_args(t_command *cmd, char **args, int *i)
 {
-	int			start;
-	int			count;
-	char		**result;
-	int			index;
-	int			skip;
-	int			i2;
-	t_outfile	*outfile;
 	t_list 		*list;
+	t_list		*new;
 
-	skip = 0;
-	start = *i;
-	i2 = *i;
-	while (args[i2])
+	list = NULL;
+	while (args[*i])
 	{
-		if (ft_is_token(args[i2]))
+		if (ft_is_token(args[*i]))
 		{
-			if (!ft_isvalidred(args[i2]))
-				return (NULL);
-			if (ft_is_aggregation(args[i2]))
+			if (ft_strequ(args[*i], "|"))
+				break ;
+			if ((*i = ft_get_redirections(args, cmd, *i)) < 0)
 			{
-				if (cmd)
-				{
-					outfile = (t_outfile *)malloc(sizeof(t_outfile));
-					outfile->fd_src = ft_get_fd_src(args[i2]);
-					outfile->fd_dest = ft_get_fd_dest(args[i2]);
-					outfile->name = NULL;
-					if (outfile->fd_dest == -1)
-							outfile->name = ft_strdup("/dev/null");
-					list = ft_lstnew(NULL, 0);
-					list->content = outfile;
-					ft_lstadd(&cmd->outlist, list);
-				}
-				skip++;
+				// free list here
+				return (NULL);
 			}
-			else
-				break;
 		}
-		i2++;
-	}
-	count = i2 - start - skip;
-	if (count <= 0)
-		return (NULL);
-	result = (char **)malloc(sizeof(char *) * count + 1);
-	index = 0;
-	*i += i2 - start - 1;
-	while (start < i2)
-	{
-		if (!ft_is_aggregation(args[start]))
+		else
 		{
-			result[index] = args[start];
-			index++;
+			new = ft_lstnew(NULL, 0);
+			new->content = ft_strdup(args[*i]);
+			ft_lstadd(&list, new);
 		}
-		start++;
+		
+		(*i)++;
 	}
-	result[index] = NULL;
-	return (result);
+	if (!ft_strequ(args[*i], "|"))
+		(*i)--;
+	list = ft_lstrev(list);
+	return (ft_lst_to_arr(list));
 }

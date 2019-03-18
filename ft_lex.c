@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/18 08:23:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/18 12:07:30 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,52 +53,14 @@ int		ft_lex(char *str, t_list **lst)
 	commands = ft_strsplit(str, -1);
 	i = 0;
 	command = NULL;
+	printf("%s\n",str);
 	while (commands[i])
 	{
 		if (ft_is_token(commands[i]))
 		{
-			while (commands[i] && ft_strcmp(commands[i], "|"))
-			{
-				if (!ft_isvalidred(commands[i]))
-					return (0);
-				if (ft_strequ(commands[i], ">") || ft_strequ(commands[i], ">>"))
-				{
-					if (!commands[i + 1] || ft_is_token(commands[i + 1]))
-						return (0);
-				}
-				if (ft_is_redirection(commands[i]) && commands[i + 1] && !ft_is_token(commands[i + 1]))
-				{
-					if (command)
-					{
-						if (commands[i][0] == '&')
-						{
-							commands[i][0] = '1';
-							ft_addfile(command, commands, i);
-							ft_addaggr(command, "2>&1");
-						}
-						else
-							ft_addfile(command, commands, i);
-					}
-					else
-						open(commands[i + 1], ft_is_redirection(commands[i]) == 2 ? O_APPEND|O_CREAT|O_WRONLY : O_CREAT|O_WRONLY|O_TRUNC, 0777);
-
-					i += 2;
-					while (commands[i] && !ft_is_token(commands[i]))
-						i++;
-					i--;
-				}
-				if (ft_is_aggregation(commands[i]))
-				{
-					if (command)
-					{
-						ft_addaggr(command, commands[i]);
-					}
-				}
-				i++;
-			}
-			if (!commands[i] || ft_strcmp(commands[i], "|"))
-				i--;
-			else if (ft_strequ(commands[i], "|") && !commands[i + 1])
+			if (ft_strequ(commands[i], "|") && !commands[i + 1])
+				return (0);
+			if ((i = ft_get_redirections(commands, command, i)) < 0)
 				return (0);
 		}
 		else

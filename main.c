@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 19:46:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/16 06:58:53 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/18 12:06:46 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	ft_print(t_list *list)
 	{
 		cmd = (t_command *)list->content;
 		printf("\n\n\n\nname = %s\n", cmd->argv[0]);
+		int i = 1;
+		while(cmd->argv[i])
+		{
+			printf("\t%s\n", cmd->argv[i]);
+			i++;
+		}
 		lst = cmd->outlist;
 		while (lst)
 		{
