@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/18 11:23:37 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 15:42:20 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <sys/stat.h>
-
+# define APPEND O_APPEND|O_CREAT|O_WRONLY
+# define TRUNC O_CREAT|O_WRONLY|O_TRUNC
 typedef struct stat	t_stat;
 typedef struct	s_command
 {

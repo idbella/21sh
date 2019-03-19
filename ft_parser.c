@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/16 06:15:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 15:23:33 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int		ft_is_redirection(char *str)
 		return (2);
 	if (ft_strstr(str, ">"))
 		return (1);
+	if (ft_strstr(str, "<"))
+		return (3);
 	return (0);
 }
 

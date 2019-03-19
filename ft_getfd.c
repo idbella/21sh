@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:52 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/14 04:05:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 15:39:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_get_fd_src(char *str)
         i++;
 	}
 	if (i == 0)
-		return (1);
+		return (ft_strchr(str, '>') ? 1 : 0);
 	fd = ft_strsub(str, 0, i);
 	i = ft_atoi(fd);
 	free(fd);

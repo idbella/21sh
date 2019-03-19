@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 11:38:10 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 15:43:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ void	ft_addfile(t_command *command, char **commands, int i)
 {
 	t_outfile	*outfile;
 	t_list		*list;
+	int			type;
 
 	outfile = (t_outfile *)malloc(sizeof(t_outfile));
 	outfile->name = ft_strdup(commands[i + 1]);
 	outfile->fd_src = ft_get_fd_src(commands[i]);
-	outfile->open_mode = ft_is_redirection(commands[i]) == 2 ? O_APPEND|O_CREAT|O_WRONLY : O_CREAT|O_WRONLY|O_TRUNC;
+	type = ft_is_redirection(commands[i]);
+	if (type == 3)
+		outfile->open_mode = O_RDONLY;
+	else
+		outfile->open_mode = type == 2 ? APPEND : TRUNC;
 	list = ft_lstnew(NULL, 0);
 	list->content = outfile;
 	ft_lstadd(&command->outlist, list);

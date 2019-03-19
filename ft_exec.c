@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 14:30:48 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 20:33:17 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 			if ((outfile->fd_src >= 0 && outfile->fd_src <= 2))
 			{
 				if (outfile->fd_src == 0)
+				{
+					if(outfile->open_mode == O_RDONLY)
+					{
+						dup2(src, 0);
+						close(src);
+					}
+					else
 					close(0);
-				if (outfile->fd_src == 2 && src > 0)
-					dup2(src, params->currentfd[outfile->fd_src]);
-				else
+				}
 					params->currentfd[outfile->fd_src] = src;
 			}
 			if (src < 0)
