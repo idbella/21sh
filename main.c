@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 19:46:13 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/18 12:06:46 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 14:12:33 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ int main(int argc, char **argv, char **env)
 	params.commands = NULL;
 	params.infile = NULL;
 	ft_parse_env(env, &params);
-	ft_putstr("$> ");
+	ft_putstr("21sh $> ");
 	while (get_next_line(0, &line) > 0)
 	{
 		ft_handle_qoutes(&line);
 		ft_split(line, &params);
 		ft_init_exec(&params);
 		//ft_print((t_list *)params.commands->content);
-		ft_putstr("$> ");
+		ft_putstr("21sh $> ");
 		params.commands = NULL;
 	}
 }

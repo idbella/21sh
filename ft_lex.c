@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/18 12:07:30 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 11:38:10 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int		ft_lex(char *str, t_list **lst)
 	commands = ft_strsplit(str, -1);
 	i = 0;
 	command = NULL;
-	printf("%s\n",str);
 	while (commands[i])
 	{
 		if (ft_is_token(commands[i]))

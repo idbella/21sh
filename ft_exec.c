@@ -6,13 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/18 13:39:01 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/19 14:30:48 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_21sh.h"
-
-
 
 static int ft_getoufile(t_command *cmd, t_params *params)
 {
@@ -28,19 +26,22 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 	{
 		outfile = (t_outfile *)list->content;
 		file = outfile->name;
-		//if (outfile->fd_src == 2)
- 		//	params->err = 1;
-		if ((outfile->fd_src == 1 || outfile->fd_src == 2 || outfile->fd_src == 0) && file)
+		if (file)
 		{
-			if ((params->currentfd[outfile->fd_src] = open(file, outfile->open_mode, 0777)) < 0)
+			src = open(file, outfile->open_mode, 0777);
+			if ((outfile->fd_src >= 0 && outfile->fd_src <= 2))
 			{
-				ft_putendl_fd("Permission Denied", params->currentfd[2]);
-				break ;
+				if (outfile->fd_src == 0)
+					close(0);
+				if (outfile->fd_src == 2 && src > 0)
+					dup2(src, params->currentfd[outfile->fd_src]);
+				else
+					params->currentfd[outfile->fd_src] = src;
 			}
-			else
+			if (src < 0)
 			{
-				ft_putstr_fd(file, params->savedfd[1]);
-				ft_putendl_fd(" opened", params->savedfd[1]);
+				ft_putendl_fd("21sh: Permission Denied:", params->currentfd[2]);
+				break ;
 			}
 		}
 		if (!file)
@@ -157,11 +158,8 @@ static int 	ft_stderr(t_list *list, t_params *params)
 	while (list)
 	{
 		outfile = (t_outfile *)list->content;
-		if (outfile->fd_src == 2)
-				ok = 1;
 		if (!outfile->name)
 		{
-			
 			if (outfile->fd_src == 2 && outfile->fd_dest == 1)
 			{
 				dup2(params->currentfd[1], params->currentfd[2]);
@@ -207,25 +205,22 @@ void	ft_exec(t_params *params, t_list *commands)
 				flag = flag ? 2 : 1;
 			else
 			{
-				ft_putendl_fd("pipe",params->savedfd[1]);
 				ft_pipe(params);
 				params->err = ft_stderr(cmd->outlist, params);
 			}
 		}
-		else if (!ft_is_out_redirected(cmd->outlist, 1, 2))
+		else
 		{
-			params->currentfd[2] = dup(params->savedfd[2]);
-			params->currentfd[1] = dup(params->savedfd[1]);
-			ft_putendl("reset");
+			if (!ft_is_out_redirected(cmd->outlist, 1, 1))
+				params->currentfd[1] = dup(params->savedfd[1]);
+			if (!ft_is_out_redirected(cmd->outlist, 2, 2))
+				params->currentfd[2] = dup(params->savedfd[2]);
 		}
 		dup2(params->currentfd[1], 1);
 		dup2(params->currentfd[2], 2);
 		close(params->currentfd[1]);
 		if (params->err)
-		{
-			ft_putendl_fd("closed\n", params->savedfd[1]);
 			close(params->currentfd[2]);
-		}
 		if (ft_isbuilt_in(cmd->argv[0]))
 			ft_built_in(cmd, params);
 		else
@@ -235,8 +230,6 @@ void	ft_exec(t_params *params, t_list *commands)
 				int fd = open("/dev/null", O_RDONLY);
 				dup2(fd, 0);
 			}
-			// ft_putendl_fd("exec", params->savedfd[1]);
-			// ft_putendl_fd(cmd->argv[0], params->savedfd[1]);
 			if (!ft_run(params, cmd))
 				break ;
 		}
