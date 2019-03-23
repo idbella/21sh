@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 15:42:20 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/20 09:43:25 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <termios.h>
 # define APPEND O_APPEND|O_CREAT|O_WRONLY
 # define TRUNC O_CREAT|O_WRONLY|O_TRUNC
+
 typedef struct stat	t_stat;
 typedef struct	s_command
 {
@@ -42,7 +44,6 @@ typedef struct	s_params
 	int			savedfd[3];
 	int			pipefd[2];
 	int			currentfd[3];
-	char		*infile;
 	int			pid;
 	int			err;
 }				t_params;

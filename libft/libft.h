@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/02/15 14:33:31 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/21 11:48:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define _CHAR 1
 # define _INT 3
 # define BUFF_SIZE 32
-
+# define NAME "21sh $> "
 typedef struct		s_list
 {
 	void			*content;
@@ -48,7 +48,7 @@ char				*ft_strmapi(char const *s, char(*f)(unsigned int, char));
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putstr_fd(char const *s, int fd);
-void				ft_putchar_fd(char c, int fd);
+int					ft_putchar_fd(char c, int fd);
 void				ft_putnbr(int n);
 void				ft_putendl(char const *s);
 void				ft_putstr(char const *s);

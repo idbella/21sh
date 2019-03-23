@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 20:33:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/20 16:00:06 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int		ft_run(t_params *params, t_command *cmd)
 
 void	ft_reset(t_params *params)
 {
-	params->infile = NULL;
 	dup2(params->savedfd[0], 0);
 	dup2(params->savedfd[1], 1);
 	dup2(params->savedfd[2], 2);
@@ -109,13 +108,10 @@ static void	ft_setup(t_params *params)
 	params->savedfd[0] = dup(0);
 	params->savedfd[1] = dup(1);
 	params->savedfd[2] = dup(2);
+	params->currentfd[0] = dup(0);
 	params->currentfd[1] = dup(1);
 	params->currentfd[2] = dup(2);
 	params->pid = 0;
-	if (params->infile)
-		params->currentfd[0] = open(params->infile, O_RDONLY);
-	else
-		params->currentfd[0] = dup(params->savedfd[0]);
 }
 
 void	ft_pipe(t_params *params)
@@ -192,7 +188,7 @@ void	ft_exec(t_params *params, t_list *commands)
 		close(params->currentfd[0]);
 		if (cmd->outlist)
 		{
-			if ((fd = ft_getoufile(cmd, params)) || params->currentfd[1] == -1 || params->currentfd[2] == -1)
+			if ((fd = ft_getoufile(cmd, params)) || params->currentfd[1] == -1 || params->currentfd[2] == -1 || params->currentfd[0] == -1)
 			{
 				if (fd)
 				{
