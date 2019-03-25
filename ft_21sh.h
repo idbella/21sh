@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/20 09:43:25 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/25 19:10:31 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,20 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <termios.h>
+# define C_UP 4283163
+# define C_DOWN 4348699
+# define C_RIGHT 4414235
+# define C_LEFT 4479771
+# define END_KEY 4610843
+# define HOME_KEY 4741915
+# define NEXT_WORD 9
+# define PREVIOUS_WORD 21
+# define SELECT 2	/* C-B */
+# define COPY 6		/* C-F */
+# define PAST 22	/* C-V */
+# define CUT 16		/* C-P */
+# include <sys/ioctl.h>
+# include <termcap.h>
 # define APPEND O_APPEND|O_CREAT|O_WRONLY
 # define TRUNC O_CREAT|O_WRONLY|O_TRUNC
 
@@ -29,6 +43,24 @@ typedef struct	s_command
 	t_list	*outlist;
 }				t_command;
 
+typedef struct s_line
+{
+	int		c;
+	char	*prefix;
+	char	*data;
+	int		cursor;
+	int		width;
+	char	*delete;
+	char	*mv_up;
+	char	*mv_left;
+	char	*mv_right;
+	char	*mv_down;
+	char	*reverse_v;
+	char	*stop_v;
+	int		select_mode;
+	int		select_start;
+	char	*clipboard;
+}				t_line;
 typedef struct	s_outfile
 {
 	char		*name;
@@ -92,4 +124,11 @@ void			ft_addfile(t_command *command, char **commands, int i);
 void			ft_addaggr(t_command *command, char *cmd);
 int     		ft_get_redirections(char **commands, t_command *command, int i);
 char    		**ft_lst_to_arr(t_list *list);
+int				ft_get_width();
+void			setup(t_line *line);
+int				ft_put(int c);
+void			ft_backspace(t_line *line);
+void			ft_print(t_line *line);
+char			*ft_strinsert(char *str1, char *filler, int index);
+char			*ft_getline();
 #endif
