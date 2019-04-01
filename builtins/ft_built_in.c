@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 02:35:33 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:50:48 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	ft_built_in(t_command *cmd, t_params *params)
 		ft_unsetenv(cmd->argv[1], params);
 	else if (!ft_strcmp(name, "exit"))
 		exit(0);
-	// else if (!ft_strcmp(name, "history"))
-	// 	ft_history(params->history);
+	else if (!ft_strcmp(name, "history"))
+	 	ft_history(params->history);
 	// else if (!ft_strcmp(name, "set_preview"))
 	// 	params->preview_mode = 1;
 	// else if (!ft_strcmp(name, "unset_preview"))

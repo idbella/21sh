@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 21:01:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:51:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ char			*ft_getvars(char *str, t_params *params);
 void			ft_addhistory(char *str, t_params *params, int init);
 void			ft_browshistory(t_line *line, t_params *params);
 void			ft_load_history(t_params *params);
+void			ft_history(t_list *list);
 /* 
 ** 
 */ 
