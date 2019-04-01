@@ -6,11 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 02:21:03 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:18:29 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
 int		ft_func1(int i, char *line)
 {
@@ -91,6 +91,9 @@ void ft_parse(char *line, t_params *params)
 	qoute[0] = 0;
 	qoute[1] = 0;
 	i2 = 0;
+	ft_addhistory(line, params, 0);
+	line = ft_gethome(line, params);
+	line = ft_getvars(line, params);
 	while (line[++i])
 	{
 		if (!qoute[0] && !qoute[1] && ft_is_special_key(line[i]) && line[i] != '&')
@@ -110,7 +113,6 @@ void ft_parse(char *line, t_params *params)
 		ft_putendl("21sh: parse error.");
 		return ;
 	}
-	
 	lst = ft_lstnew(NULL, 0);
 	lst->content = commands;
 	ft_lstadd(&params->commands, lst);

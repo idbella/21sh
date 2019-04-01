@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 02:28:02 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/31 03:26:42 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:32:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_printf_fd(int fd, char *format ,...)
 {
 	t_printf_params *param;
 
-	param = ft_init((char *)format);
+	param = ft_init_printf((char *)format);
 	va_start(param->list, format);
 
 	while (*param->format)
@@ -35,7 +35,7 @@ void	ft_printf_fd(int fd, char *format ,...)
 	va_end(param->list);
 }
 
-t_printf_params	*ft_init(char *format)
+t_printf_params	*ft_init_printf(char *format)
 {
 	t_printf_params *param;
 

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/05 01:23:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/31 03:26:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:31:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,5 @@ void					ft_getchar(t_printf_params *param);
 void					ft_getint(t_printf_params *param);
 int						ft_csd(t_printf_params *param);
 void					ft_append(t_printf_params *param);
-t_printf_params			*ft_init(char *format);
+t_printf_params			*ft_init_printf(char *format);
 #endif

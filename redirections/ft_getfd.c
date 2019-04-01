@@ -6,11 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:52 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 15:39:39 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:13:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
 int	ft_get_fd_src(char *str)
 {

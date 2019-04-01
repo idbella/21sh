@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/24 02:54:15 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/30 23:28:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 18:07:37 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void	setup(t_line *line, char *prefix)
 int	ft_get_width()
 {
 	struct winsize size;
+
 	ioctl(0, TIOCGWINSZ, &size);
 	return (size.ws_col);
 }
@@ -269,7 +270,7 @@ void	ft_previous(t_line *line)
 	line->cursor = ft_strlen(line->data) - i;
 }
 
-char	*ft_getline(char *text, char *prefix)
+char	*ft_getline(char *text, char *prefix, t_params *params)
 {
 	t_line line;
 
@@ -280,12 +281,13 @@ char	*ft_getline(char *text, char *prefix)
 	while(read(0, &line.c, 3))
 	{
 		ft_clearline(&line);
-		ft_special_keys(&line);
+		ft_special_keys(&line, params);
 		if (line.c == '\n')
 		{
 			line.cursor = 0;
 			ft_print(&line);
 			ft_putchar('\n');
+			params->history_pos = -1;
 			return (line.data);
 		}
 		

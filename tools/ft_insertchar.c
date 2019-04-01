@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_here_doc.c                                      :+:      :+:    :+:   */
+/*   ft_insertchar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/18 10:50:43 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/18 10:56:49 by sid-bell         ###   ########.fr       */
+/*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/04/01 22:20:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
-char    *ft_here_doc(char *eof)
+char	*ft_insertchar(char **src, char c, int index)
 {
-	char	*line;
-	char	*doc;
-	char	*tmp;
+	int		i;
+	char	*new;
+	char	*str;
 
-	doc = ft_strnew(0);
-	while(get_next_line(0, &line) > 0)
+	str = *src;
+	i = 0;
+	new = ft_strnew(ft_strlen(str) + 1);
+	while (str[i])
 	{
-		tmp = doc;
-		doc = ft_strjoin(doc, line);
-		free(tmp);
-		if (ft_strequ(eof, line))
-			break ;
+		if (i == index)
+		{
+			new[i] = c;
+		}
+		else if (i > index)
+			new[i] = str[i - 1];
+		else
+			new[i] = str[i];
+		if (str[i + 1] == '\0')
+			new[i + 1] = str[i];
+		i++;
 	}
-	return (doc);
+	free(*src);
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/31 03:40:53 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 20:13:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 			}
 			if (src < 0)
 			{
-				ft_putendl_fd("21sh: permission denied: %s", params->currentfd[2]);
+				ft_printf_fd(params->currentfd[1], "21sh: permission denied: %s\n", file);
 				break ;
 			}
 		}

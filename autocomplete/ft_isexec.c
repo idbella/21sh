@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_token.c                                      :+:      :+:    :+:   */
+/*   ft_isexec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 19:08:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 19:09:11 by sid-bell         ###   ########.fr       */
+/*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/04/01 02:49:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
-int ft_is_token(char *str)
+int		ft_is_exec(char *file, char *path)
 {
-	int		i;
-	int		qoute[2];
+	t_stat		state;
+	int			val;
 
-	i = 0;
-	qoute[0] = 0;
-	qoute[1] = 0;
-	while (str[i])
+	val = 0;
+	path = ft_strjoin(path, "/");
+	file = ft_strjoin(path, file);
+	if (!stat(file, &state))
 	{
-		ft_qoutes(str[i], qoute);
-		if (!qoute[0] && !qoute[1] && ft_is_special_key(str[i]) && str[i] != '&')
-			return (1);
-		i++;
+		if (S_ISREG(state.st_mode) && !access(file, X_OK))
+			val = 1;
 	}
-	return (0);
+	free(path);
+	free(file);
+	return (val);
 }

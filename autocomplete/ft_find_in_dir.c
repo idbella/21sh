@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_agregation.c                                 :+:      :+:    :+:   */
+/*   ft_find_in_dir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 22:10:58 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 14:42:19 by sid-bell         ###   ########.fr       */
+/*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/04/01 02:52:15 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
-int		ft_is_aggregation(char *current)
+char	*ft_find_in_dir(char *path, char *part0)
 {
-	int len;
+	DIR				*dir;
+	struct dirent	*entry;
 
-	if (ft_strstr(current, ">&") || ft_strstr(current, "<&"))
+	if ((dir = opendir(path)))
 	{
-        len = ft_strlen(current);
-        if (current[len - 1] == '-' || ft_isdigit(current[len - 1]))
-            return (1);		
+		while ((entry = readdir(dir)))
+		{
+			if (entry->d_name[0] == '.')
+				continue ;
+			if (!ft_strncmp(part0, entry->d_name, ft_strlen(part0)))
+			{
+				closedir(dir);
+				return (ft_strdup(entry->d_name));
+			}
+		}
+		closedir(dir);
 	}
-	return (0);
+	return (NULL);
 }

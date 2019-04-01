@@ -6,11 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 02:22:08 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:34:23 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
 void	ft_addfile(t_command *command, char **commands, int i)
 {
@@ -57,6 +57,7 @@ int		ft_lex(char *str, t_list **lst)
 	str = ft_remove_wsapces(str);
 	commands = ft_strsplit(str, -1);
 	i = 0;
+	printf("str = %s\n", str);
 	command = NULL;
 	while (commands[i])
 	{

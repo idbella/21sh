@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/30 22:18:54 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 21:01:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <termios.h>
+# include <dirent.h>
+# include <sys/ioctl.h>
+# include <termcap.h>
 # define C_UP 4283163
 # define C_DOWN 4348699
 # define C_RIGHT 4414235
@@ -31,8 +34,6 @@
 # define COPY 6		/* C-F */
 # define PAST 22	/* C-V */
 # define CUT 16		/* C-P */
-# include <sys/ioctl.h>
-# include <termcap.h>
 # define APPEND O_APPEND|O_CREAT|O_WRONLY
 # define TRUNC O_CREAT|O_WRONLY|O_TRUNC
 
@@ -71,13 +72,16 @@ typedef struct	s_outfile
 
 typedef struct	s_params
 {
-	t_list			*env;
+	t_list		*env;
 	t_list		*commands;
 	int			savedfd[3];
 	int			pipefd[2];
 	int			currentfd[3];
 	int			pid;
 	int			err;
+	char		*pwd;
+	t_list		*history;
+	int			history_pos;
 }				t_params;
 
 typedef struct		s_env
@@ -131,11 +135,27 @@ void			ft_backspace(t_line *line);
 void			ft_print(t_line *line);
 char			*ft_strinsert(char *str1, char *filler, int index);
 
+/*
+**
+*/
+
+void			ft_cd(char *location, t_params *params);
+char			*ft_pwd(void);
+char			*ft_find_in_path(char *part0, t_params *params);
+char			*ft_find_in_dir(char *path, char *part0);
+int				ft_is_exec(char *file, char *path);
+char			*ft_gethome(char *str, t_params *params);
+char			*ft_replace_char(char *str1, char *filler, int index);
+char			*ft_strcut(char *str, int i0, int i1);
+char			*ft_getvars(char *str, t_params *params);
+void			ft_addhistory(char *str, t_params *params, int init);
+void			ft_browshistory(t_line *line, t_params *params);
+void			ft_load_history(t_params *params);
 /* 
 ** 
 */ 
 
-char			*ft_getline(char *text, char *prefix);
+char			*ft_getline(char *text, char *prefix, t_params *params);
 void			ft_past(t_line *line);
 void			ft_copy(t_line *line);
 void			ft_cut(t_line *line);
@@ -144,5 +164,5 @@ void			ft_next(t_line *line);
 void			ft_previous(t_line *line);
 void			ft_cursor(t_line *line);
 
-void    		ft_special_keys(t_line *line);
+void    		ft_special_keys(t_line *line, t_params *params);
 #endif

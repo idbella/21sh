@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 21:59:58 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/30 22:17:50 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 17:59:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-void    ft_special_keys(t_line *line)
+void    ft_special_keys(t_line *line, t_params *params)
 {
     if (line->c == 127)
 			ft_backspace(line);
@@ -37,4 +37,6 @@ void    ft_special_keys(t_line *line)
 			ft_previous(line);
 		if (line->c == C_LEFT || line->c == C_RIGHT)
 			ft_cursor(line);
+		if (line->c == C_DOWN || line->c == C_UP)
+			ft_browshistory(line, params);
 }
