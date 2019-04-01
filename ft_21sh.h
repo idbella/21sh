@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/27 21:40:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/30 22:18:54 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 # define COPY 6		/* C-F */
 # define PAST 22	/* C-V */
 # define CUT 16		/* C-P */
-# define UP_LINE 1	/* C-A */
-# define DOWN_LINE 14	/* C-N */
 # include <sys/ioctl.h>
 # include <termcap.h>
 # define APPEND O_APPEND|O_CREAT|O_WRONLY
@@ -45,13 +43,7 @@ typedef struct	s_command
 	t_list	*outlist;
 }				t_command;
 
-typedef	struct s_oldline
-{
-	char *text;
-	char *prefix;
-}				t_oldline;
-
-typedef struct	s_line
+typedef struct s_line
 {
 	int		c;
 	char	*prefix;
@@ -68,7 +60,6 @@ typedef struct	s_line
 	int		select_mode;
 	int		select_start;
 	char	*clipboard;
-	t_list	*old_lines;
 }				t_line;
 typedef struct	s_outfile
 {
@@ -134,22 +125,24 @@ void			ft_addaggr(t_command *command, char *cmd);
 int     		ft_get_redirections(char **commands, t_command *command, int i);
 char    		**ft_lst_to_arr(t_list *list);
 int				ft_get_width();
+void			setup(t_line *line, char *prefix);
 int				ft_put(int c);
 void			ft_backspace(t_line *line);
 void			ft_print(t_line *line);
 char			*ft_strinsert(char *str1, char *filler, int index);
-char			*ft_getline();
-void			ft_special_keys(t_line *line);
-void			ft_next_word(t_line *line);
-void			ft_previous_word(t_line *line);
-int				ft_get_nline(t_line *line);
-int				ft_get_cline(t_line *line);
-void			ft_cut(t_line *line);
-void			ft_copy(t_line *line);
+
+/* 
+** 
+*/ 
+
+char			*ft_getline(char *text, char *prefix);
 void			ft_past(t_line *line);
-void			ft_select(t_line *line);
-void			ft_clearline(t_line *line);
-void			ft_move_cursor(t_line *line);
+void			ft_copy(t_line *line);
+void			ft_cut(t_line *line);
+
+void			ft_next(t_line *line);
+void			ft_previous(t_line *line);
 void			ft_cursor(t_line *line);
-int				ft_cloumn(t_line *line);
+
+void    		ft_special_keys(t_line *line);
 #endif

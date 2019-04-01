@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/20 16:00:06 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/03/31 03:40:53 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 			}
 			if (src < 0)
 			{
-				ft_putendl_fd("21sh: Permission Denied:", params->currentfd[2]);
+				ft_putendl_fd("21sh: permission denied: %s", params->currentfd[2]);
 				break ;
 			}
 		}
@@ -71,24 +71,28 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 int		ft_run(t_params *params, t_command *cmd)
 {
 	char	*file;
+	char	**env;
 
 	if ((file = ft_find_file(cmd->argv[0], params->env)))
 	{
+		env = ft_get_env(params->env);
 		params->pid = fork();
 		if (!params->pid)
 		{
-			execv(file, cmd->argv);
+			execve(file, cmd->argv, env);
 			ft_putendl(cmd->argv[0]);
 			ft_putendl_fd("Unknown error", 2);
 			exit(1);
 		}
 		else
+		{
+			//free env, file;
 			return (1);
+		}
 	}
 	else
 	{
-		ft_putstr_fd("21sh: command not found: ", 2);
-		ft_putendl_fd(cmd->argv[0], 2);
+		ft_printf_fd(2, "%s %s\n", "21sh: command not found:", cmd->argv[0]);
 		return (0);
 	}
 }
@@ -191,11 +195,7 @@ void	ft_exec(t_params *params, t_list *commands)
 			if ((fd = ft_getoufile(cmd, params)) || params->currentfd[1] == -1 || params->currentfd[2] == -1 || params->currentfd[0] == -1)
 			{
 				if (fd)
-				{
-					ft_putstr_fd("21sh ", params->savedfd[2]);
-					ft_putnbr_fd(fd, params->savedfd[2]);
-					ft_putendl_fd(": Bad file descriptor", params->savedfd[2]);
-				}
+					ft_printf_fd(params->savedfd[2], "21sh: %d: Bad file descriptor\n", fd);
 				commands = commands->next;
 				continue ;
 			}
@@ -231,8 +231,7 @@ void	ft_exec(t_params *params, t_list *commands)
 				int fd = open("/dev/null", O_RDONLY);
 				dup2(fd, 0);
 			}
-			if (!ft_run(params, cmd))
-				break ;
+			ft_run(params, cmd);
 		}
 		commands = commands->next;
 	}

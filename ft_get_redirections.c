@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 08:37:04 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 15:42:41 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 02:16:59 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ int     ft_get_redirections(char **commands, t_command *command, int i)
         else
         {
             if (open(commands[i + 1], ft_is_redirection(commands[i]) == 2 ? APPEND : TRUNC, 0777) < 0)
-            {
-				ft_putstr_fd("21sh: ", 2);
-				ft_putstr_fd(commands[i + 1], 2);
-				ft_putendl_fd(": Permission denied", 2);
-			}
+                ft_printf_fd(2, "21sh: permission denied: %s\n", commands[i + 1]);
         }
         i += 1;
     }

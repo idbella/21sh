@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/19 15:23:33 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 02:21:03 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_func1(int i, char *line)
 		{
 			if (ft_isspace(line[i2]))
 				break ;
-			if (!(line[i2] >= '0' && line[i2] <= '9'))
+			if (!ft_isdigit(line[i2]))
 			{
 				if (line[i] == '>' && line[i2] == '&')
 				{
@@ -91,7 +91,6 @@ void ft_parse(char *line, t_params *params)
 	qoute[0] = 0;
 	qoute[1] = 0;
 	i2 = 0;
-	
 	while (line[++i])
 	{
 		if (!qoute[0] && !qoute[1] && ft_is_special_key(line[i]) && line[i] != '&')
