@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:10:05 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:18:45 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/02 08:36:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-char	**ft_get_args(t_command *cmd, char **args, int *i)
+char	**ft_get_args(t_command *cmd, char **args, int *i, t_params *params)
 {
 	t_list 		*list;
 	t_list		*new;
@@ -24,7 +24,7 @@ char	**ft_get_args(t_command *cmd, char **args, int *i)
 		{
 			if (ft_strequ(args[*i], "|"))
 				break ;
-			if ((*i = ft_get_redirections(args, cmd, *i)) < 0)
+			if ((*i = ft_get_redirections(args, cmd, *i, params)) < 0)
 			{
 				// free list here
 				return (NULL);
@@ -36,7 +36,6 @@ char	**ft_get_args(t_command *cmd, char **args, int *i)
 			new->content = ft_strdup(args[*i]);
 			ft_lstadd(&list, new);
 		}
-		
 		(*i)++;
 	}
 	if (!ft_strequ(args[*i], "|"))

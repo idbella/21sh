@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:52:39 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/02 08:44:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_addaggr(t_command *command, char *cmd)
 	ft_lstadd(&command->outlist, list);
 }
 
-int		ft_lex(char *str, t_list **lst)
+int		ft_lex(char *str, t_list **lst, t_params *params)
 {
 	char		**commands;
 	int 		i;
@@ -64,15 +64,16 @@ int		ft_lex(char *str, t_list **lst)
 		{
 			if (ft_strequ(commands[i], "|") && !commands[i + 1])
 				return (0);
-			if ((i = ft_get_redirections(commands, command, i)) < 0)
+			else if ((i = ft_get_redirections(commands, command, i, params)) < 0)
 				return (0);
 		}
 		else
 		{
 			command = (t_command *)malloc(sizeof(t_command));
+			command->herdoc = NULL;
 			list = ft_lstnew(NULL, 0);
 			command->outlist = NULL;
-			if (!(command->argv = ft_get_args(command, commands, &i)))
+			if (!(command->argv = ft_get_args(command, commands, &i, params)))
 				return (0);
 			list->content = command;
 			ft_lstadd(lst, list);

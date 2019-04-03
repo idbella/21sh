@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:21 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:18:29 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/02 08:24:43 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void ft_parse(char *line, t_params *params)
 		ft_qoutes(line[i], qoute);
 	}
 	commands = NULL;
-	if (!ft_lex(line, &commands))
+	if (!ft_lex(line, &commands, params))
 	{
 		ft_putendl("21sh: parse error.");
 		return ;

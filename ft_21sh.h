@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 21:47:53 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:51:39 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/02 20:51:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct	s_command
 {
 	char	**argv;
 	t_list	*outlist;
+	char	*herdoc;
 }				t_command;
 
 typedef struct s_line
@@ -78,6 +79,7 @@ typedef struct	s_params
 	int			pipefd[2];
 	int			currentfd[3];
 	int			pid;
+	struct termios *term;
 	int			err;
 	char		*pwd;
 	t_list		*history;
@@ -113,20 +115,20 @@ int 			ft_is_token(char *str);
 int				ft_countargs(char **args);
 char			*ft_insert_str(char *str1, char *filler, int index);
 void			ft_split(char *str, t_params *params);
-char			**ft_get_args(t_command *cmd, char **args, int *i);
+char			**ft_get_args(t_command *cmd, char **args, int *i, t_params *params);
 int				ft_is_aggregation(char *current);
 int				ft_get_fd_src(char *str);
 int				ft_get_fd_dest(char *str);
 int				ft_isvalidred(char *str);
 int				ft_is_redirection(char *str);
-int				ft_lex(char *str, t_list **lst);
+int				ft_lex(char *str, t_list **lst, t_params *params);
 void			ft_fd_or_file(char **line, int i);
 char			*ft_find_file(char *file, t_list *list);
 char			**ft_getpaths(t_list *list);
 t_stat			*ft_exist(char *file);
 void			ft_addfile(t_command *command, char **commands, int i);
 void			ft_addaggr(t_command *command, char *cmd);
-int     		ft_get_redirections(char **commands, t_command *command, int i);
+int     		ft_get_redirections(char **commands, t_command *command, int i, t_params *params);
 char    		**ft_lst_to_arr(t_list *list);
 int				ft_get_width();
 void			setup(t_line *line, char *prefix);
@@ -134,7 +136,7 @@ int				ft_put(int c);
 void			ft_backspace(t_line *line);
 void			ft_print(t_line *line);
 char			*ft_strinsert(char *str1, char *filler, int index);
-
+char			*ft_here_doc(char *eof, t_params *params);
 /*
 **
 */

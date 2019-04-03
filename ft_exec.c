@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 04:30:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 20:13:52 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/03 12:10:19 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int ft_getoufile(t_command *cmd, t_params *params)
 			}
 			if (src < 0)
 			{
-				ft_printf_fd(params->currentfd[1], "21sh: permission denied: %s\n", file);
+				ft_printf_fd(params->savedfd[2], "21sh: permission denied: %s\n", file);
 				break ;
 			}
 		}
@@ -79,6 +79,7 @@ int		ft_run(t_params *params, t_command *cmd)
 		params->pid = fork();
 		if (!params->pid)
 		{
+			close(params->currentfd[1]);
 			execve(file, cmd->argv, env);
 			ft_putendl(cmd->argv[0]);
 			ft_putendl_fd("Unknown error", 2);
@@ -200,7 +201,7 @@ void	ft_exec(t_params *params, t_list *commands)
 				continue ;
 			}
 		}
-		if (commands->next)
+		if (commands->next || cmd->herdoc)
 		{
 			if (ft_is_out_redirected(cmd->outlist, 1, 1))
 				flag = flag ? 2 : 1;
@@ -222,8 +223,16 @@ void	ft_exec(t_params *params, t_list *commands)
 		close(params->currentfd[1]);
 		if (params->err)
 			close(params->currentfd[2]);
-		if (ft_isbuilt_in(cmd->argv[0]))
+		if (ft_isbuilt_in(cmd->argv[0]) || cmd->herdoc)
+		{
+			if (cmd->herdoc)
+			{
+				ft_printf_fd(1, "%s\n", cmd->herdoc);
+				cmd->herdoc = NULL;
+				continue ;
+			}
 			ft_built_in(cmd, params);
+		}
 		else
 		{
 			if (flag >= 2)

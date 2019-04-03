@@ -6,7 +6,7 @@
 #    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/04 15:42:19 by sid-bell          #+#    #+#              #
-#    Updated: 2019/04/01 22:19:21 by sid-bell         ###   ########.fr        #
+#    Updated: 2019/04/03 13:05:15 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,3 +25,4 @@ fclean: clean
 		@rm -rf $(NAME)
 re:fclean
 		@make all
+		make clean
