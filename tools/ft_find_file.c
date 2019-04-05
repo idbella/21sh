@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 23:59:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 03:03:39 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ char		*ft_find_file(char *file, t_list *list)
 	char	*tmp;
 
 	index = -1;
-	paths = NULL;
-	if ((!ft_strchr(file, '/') && (paths = ft_getpaths(list))))
+	paths = ft_getpaths(list);
+	if ((!ft_strchr(file, '/') && paths))
+	{
 		while (paths[++index])
 		{
-			
 			fullpath = ft_strjoin(paths[index], "/");
 			tmp = fullpath;
 			fullpath = ft_strjoin(fullpath, file);
@@ -77,7 +77,11 @@ char		*ft_find_file(char *file, t_list *list)
 			}
 			free(fullpath);
 		}
-	return (ft_helper1(paths, file));
+		ft_free_paths(&paths);
+		return (NULL);
+	}
+	else
+		return (ft_helper1(paths, file));
 }
 
 t_stat		*ft_exist(char *file)

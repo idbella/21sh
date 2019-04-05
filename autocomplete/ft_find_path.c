@@ -1,51 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_remove_wspaces.c                                :+:      :+:    :+:   */
+/*   ft_find_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:08:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 02:48:55 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-static void	ft_helper(char *c, int *qoute, int *dqoute)
+void	ft_free(char ***str)
 {
-	if (!*dqoute && !*qoute && ft_isspace(*c))
-		*c = -1;
-	else if (!*qoute && *c == '\"')
-	{
-		*c = -1;
-		*dqoute = !*dqoute;
-	}
-	else if (!*dqoute && *c == '\'')
-	{
-		*c = -1;
-		*qoute = !*qoute;
-	}
-}
-
-char		*ft_remove_wsapces(char *str)
-{
-	int		qoute;
-	int		dqoute;
+	char	**ptr;
 	int		i;
-	char	*result;
 
-	result = ft_strdup(str);
-	qoute = 0;
-	dqoute = 0;
-	str = result;
-	result = ft_strtrim(result);
-	free(str);
 	i = 0;
-	while (result[i])
+	ptr = *str;
+	while (ptr[i])
 	{
-		ft_helper(&result[i], &qoute, &dqoute);
+		free(ptr[i]);
 		i++;
 	}
-	return (result);
+	free(ptr);
+}
+
+char	*ft_find_in_path(char *part0, t_params *params)
+{
+	char			**paths;
+	int				i;
+	char			*file;
+
+	if ((paths = ft_getpaths(params->env)))
+	{
+		i = 0;
+		while (paths[i])
+		{
+			if ((file = ft_find_in_dir(paths[i], part0)))
+			{
+				if (ft_is_exec(file, paths[i]))
+				{
+					ft_free(&paths);
+					return (file);
+				}
+				free(file);
+			}
+			i++;
+		}
+		ft_free(&paths);
+	}
+	return (NULL);
 }

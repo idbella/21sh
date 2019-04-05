@@ -1,42 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_is_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 21:44:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 21:44:41 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/03/12 19:08:51 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/04/01 22:13:42 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
-void	ft_split(char *str, t_params *params)
+int ft_is_token(char *str)
 {
 	int		i;
-	int		start;
 	int		qoute[2];
-	char	*cmd;
 
-	i = -1;
+	i = 0;
 	qoute[0] = 0;
 	qoute[1] = 0;
-	start = 0;
-	while (str[++i])
+	while (str[i])
 	{
-		if (!qoute[0] && !qoute[1] && str[i] == ';')
-		{
-			cmd = ft_strsub(str, start, i - start);
-			ft_parse(cmd, params);
-			start = i + 1;
-		}
-		ft_qoutes(str[i], &qoute[0]);
-		if (!str[i + 1] && str[i] != ';')
-		{
-			cmd = ft_strsub(str, start, i - start + 1);
-			ft_parse(cmd, params);
-		}
+		ft_qoutes(str[i], qoute);
+		if (!qoute[0] && !qoute[1] && ft_is_special_key(str[i]) && str[i] != '&')
+			return (1);
+		i++;
 	}
-	params->commands = ft_lstrev(params->commands);
+	return (0);
 }

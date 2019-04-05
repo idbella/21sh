@@ -6,11 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/07 20:01:17 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:20:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
 char	*ft_insertchar(char **src, char c, int index)
 {

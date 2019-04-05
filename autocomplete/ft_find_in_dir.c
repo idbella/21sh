@@ -1,51 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_remove_wspaces.c                                :+:      :+:    :+:   */
+/*   ft_find_in_dir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:08:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 02:52:15 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-static void	ft_helper(char *c, int *qoute, int *dqoute)
+char	*ft_find_in_dir(char *path, char *part0)
 {
-	if (!*dqoute && !*qoute && ft_isspace(*c))
-		*c = -1;
-	else if (!*qoute && *c == '\"')
-	{
-		*c = -1;
-		*dqoute = !*dqoute;
-	}
-	else if (!*dqoute && *c == '\'')
-	{
-		*c = -1;
-		*qoute = !*qoute;
-	}
-}
+	DIR				*dir;
+	struct dirent	*entry;
 
-char		*ft_remove_wsapces(char *str)
-{
-	int		qoute;
-	int		dqoute;
-	int		i;
-	char	*result;
-
-	result = ft_strdup(str);
-	qoute = 0;
-	dqoute = 0;
-	str = result;
-	result = ft_strtrim(result);
-	free(str);
-	i = 0;
-	while (result[i])
+	if ((dir = opendir(path)))
 	{
-		ft_helper(&result[i], &qoute, &dqoute);
-		i++;
+		while ((entry = readdir(dir)))
+		{
+			if (entry->d_name[0] == '.')
+				continue ;
+			if (!ft_strncmp(part0, entry->d_name, ft_strlen(part0)))
+			{
+				closedir(dir);
+				return (ft_strdup(entry->d_name));
+			}
+		}
+		closedir(dir);
 	}
-	return (result);
+	return (NULL);
 }

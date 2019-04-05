@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_insert.c                                    :+:      :+:    :+:   */
+/*   ft_is_agregation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 21:45:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/25 19:08:22 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/03/12 22:10:58 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/04/01 22:16:01 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-char	*ft_insert_str(char *str1, char *filler, int index)
+int		ft_is_aggregation(char *current)
 {
-	char	*result;
-	char	*part1;
-	char	*part2;
-	int		len;
+	int len;
 
-	len = ft_strlen(str1);
-	part1 = ft_strsub(str1, 0, index);
-	part2 = ft_strsub(str1, index, len - index);
-	result = ft_strjoin(part1, filler);
-	free(part1);
-	part1 = result;
-	result = ft_strjoin(result, part2);
-	free(part1);
-	free(part2);
-	free(str1);
-	return (result);
+	if (ft_strstr(current, ">&") || ft_strstr(current, "<&"))
+	{
+        len = ft_strlen(current);
+        if (current[len - 1] == '-' || ft_isdigit(current[len - 1]))
+            return (1);		
+	}
+	return (0);
 }

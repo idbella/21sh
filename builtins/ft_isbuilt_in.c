@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:49:00 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/04 18:59:04 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int		ft_isbuilt_in(char *name)
 {
 	if (!ft_strcmp(name, "cd"))
+		return (1);
+	if (!ft_strcmp(name, "alias"))
 		return (1);
 	if (!ft_strcmp(name, "echo"))
 		return (1);

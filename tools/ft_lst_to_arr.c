@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_token.c                                      :+:      :+:    :+:   */
+/*   ft_lst_to_arr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 19:08:51 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 19:09:11 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/03/18 09:08:56 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/03/19 14:24:57 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
-int ft_is_token(char *str)
+char    **ft_lst_to_arr(t_list *list)
 {
-	int		i;
-	int		qoute[2];
+    char    **result;
+    int     count;
+    int     index;
 
-	i = 0;
-	qoute[0] = 0;
-	qoute[1] = 0;
-	while (str[i])
-	{
-		ft_qoutes(str[i], qoute);
-		if (!qoute[0] && !qoute[1] && ft_is_special_key(str[i]) && str[i] != '&')
-			return (1);
-		i++;
-	}
-	return (0);
+    count = ft_lstcount(list);
+    result = (char **)malloc(sizeof(char *) * (count + 1));
+    index = 0;
+    while(list)
+    {
+        result[index] = (char *)list->content;
+        list = list->next;
+        index++;
+    }
+    result[index] = NULL;
+    return (result);
 }

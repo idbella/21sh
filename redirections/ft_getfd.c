@@ -6,11 +6,11 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:52 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:42:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/01 22:13:35 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
 int	ft_get_fd_src(char *str)
 {
@@ -25,7 +25,7 @@ int	ft_get_fd_src(char *str)
         i++;
 	}
 	if (i == 0)
-		return (1);
+		return (ft_strchr(str, '>') ? 1 : 0);
 	fd = ft_strsub(str, 0, i);
 	i = ft_atoi(fd);
 	free(fd);
@@ -46,5 +46,7 @@ int	ft_get_fd_dest(char *str)
 	{
 		i = ft_atoi(fd);
 	}
+	else
+		return (-1);
 	return (i);	
 }

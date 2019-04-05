@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_insert.c                                    :+:      :+:    :+:   */
+/*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 21:45:12 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/25 19:08:22 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/03/18 10:50:43 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/04/03 12:13:08 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-char	*ft_insert_str(char *str1, char *filler, int index)
+char    *ft_here_doc(char *eof, t_params *params)
 {
-	char	*result;
-	char	*part1;
-	char	*part2;
-	int		len;
+	char	*line;
+	char	*doc;
+	char	*tmp;
 
-	len = ft_strlen(str1);
-	part1 = ft_strsub(str1, 0, index);
-	part2 = ft_strsub(str1, index, len - index);
-	result = ft_strjoin(part1, filler);
-	free(part1);
-	part1 = result;
-	result = ft_strjoin(result, part2);
-	free(part1);
-	free(part2);
-	free(str1);
-	return (result);
+	doc = ft_strnew(0);
+	while(1)
+	{
+		line = ft_getline(NULL, "heredoc> ", params);
+		tmp = doc;
+		doc = ft_strjoin(doc, line);
+		free(tmp);
+		if (ft_strequ(eof, line))
+			break ;
+		doc = ft_strjoin(doc, "\n");
+	}
+	return (doc);
 }

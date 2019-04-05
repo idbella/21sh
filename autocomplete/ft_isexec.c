@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isvalid.c                                       :+:      :+:    :+:   */
+/*   ft_isexec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 22:14:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:19:50 by sid-bell         ###   ########.fr       */
+/*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/04/01 02:49:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_21sh.h"
+#include "../ft_21sh.h"
 
-int	ft_isvalidred(char *str)
+int		ft_is_exec(char *file, char *path)
 {
-	int count1;
-	int count2;
-	int count3;
+	t_stat		state;
+	int			val;
 
-	count1 = 0;
-	count3 = 0;
-	count2 = 0;
-	while (*str)
+	val = 0;
+	path = ft_strjoin(path, "/");
+	file = ft_strjoin(path, file);
+	if (!stat(file, &state))
 	{
-		if (*str == '>')
-			count1++;
-		else if (*str == '<')
-			count2++;
-		else if (*str == '|')
-			count3++;
-		str++;
+		if (S_ISREG(state.st_mode) && !access(file, X_OK))
+			val = 1;
 	}
-	if (((count1 && count2) || (count1 && count3) || (count2 && count3)) || count1 > 2 || count2 > 2 || count3 > 1)
-		return (0);
-	return (1);
+	free(path);
+	free(file);
+	return (val);
 }
