@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 17:16:38 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/04 18:46:16 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		ft_changedir(char *dir, t_params *params)
 	free(new);
 }
 
-void		ft_helper(char *dir, t_stat *stat, t_params *params)
+static void	ft_helper(char *dir, t_stat *stat, t_params *params)
 {
 	if (S_ISDIR(stat->st_mode))
 	{

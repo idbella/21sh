@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:44:33 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/25 20:03:07 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,7 @@ static int	ft_isvalid(char *key, char **val, t_list *list)
 	int i;
 
 	i = 0;
-	if (!key || !*val)
-	{
-		ft_env(list);
-		return (0);
-	}
-	if (!*val)
-		*val = ft_strnew(0);
-	while (key[i])
+	while (key && key[i])
 	{
 		if ((!ft_isalnum(key[i]) && key[i] != '_') || ft_isdigit(key[0]))
 		{
@@ -33,10 +26,17 @@ static int	ft_isvalid(char *key, char **val, t_list *list)
 		}
 		i++;
 	}
+	if (!key || !*val)
+	{
+		ft_env(list);
+		return (0);
+	}
+	if (!*val)
+		*val = ft_strnew(0);
 	return (1);
 }
 
-void	ft_setenv(char *key, char *value, t_params *params)
+void		ft_setenv(char *key, char *value, t_params *params)
 {
 	t_env	*env;
 	t_list	*list;

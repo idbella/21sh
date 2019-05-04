@@ -6,21 +6,25 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/04 18:58:51 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/02 22:31:32 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
+void	ft_exit(t_params *params)
+{
+	ft_free_cmd_list(params->commands);
+	exit(0);
+}
+
 void	ft_built_in(t_command *cmd, t_params *params)
 {
 	char *name;
-	
+
 	name = cmd->argv[0];
 	if (!ft_strcmp(name, "cd"))
-	 	ft_cd(cmd->argv[1], params);
-	if (!ft_strcmp(name, "alias"))
-	 	ft_alias(cmd->argv, params);
+		ft_cd(cmd->argv[1], params);
 	if (!ft_strcmp(name, "echo"))
 		ft_echo(cmd);
 	if (!ft_strcmp(name, "env"))
@@ -30,11 +34,7 @@ void	ft_built_in(t_command *cmd, t_params *params)
 	if (!ft_strcmp(name, "unsetenv"))
 		ft_unsetenv(cmd->argv[1], params);
 	else if (!ft_strcmp(name, "exit"))
-		exit(0);
+		ft_exit(params);
 	else if (!ft_strcmp(name, "history"))
-	 	ft_history(params->history);
-	// else if (!ft_strcmp(name, "set_preview"))
-	// 	params->preview_mode = 1;
-	// else if (!ft_strcmp(name, "unset_preview"))
-	// 	params->preview_mode = 0;
+		ft_history(params->history);
 }

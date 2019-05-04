@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 21:44:26 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/13 23:28:50 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/04 17:59:30 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ void	ft_split(char *str, t_params *params)
 {
 	int		i;
 	int		start;
-	int		qoute[2];
+	char	qoute[2];
 	char	*cmd;
 
 	i = -1;
-	qoute[0] = 0;
-	qoute[1] = 0;
+	ft_bzero(qoute, 2);
 	start = 0;
 	while (str[++i])
 	{
@@ -37,6 +36,7 @@ void	ft_split(char *str, t_params *params)
 			cmd = ft_strsub(str, start, i - start + 1);
 			ft_parse(cmd, params);
 		}
+		if (params->ctrlc)
+			return ;
 	}
-	params->commands = ft_lstrev(params->commands);
 }

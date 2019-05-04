@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_args.c                                    :+:      :+:    :+:   */
+/*   ft_isredirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 21:42:45 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/12 22:50:54 by sid-bell         ###   ########.fr       */
+/*   Created: 2019/05/04 18:30:45 by sid-bell          #+#    #+#             */
+/*   Updated: 2019/05/04 18:30:59 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-int		ft_countargs(char **args)
+int			ft_is_redirection(char *str)
 {
-	int	count;
-
-	count = 0;
-	while(*args)
-	{
-		count++;
-		args++;
-	}
-	return (count);
+	if (ft_strstr(str, ">>"))
+		return (2);
+	if (ft_strstr(str, ">"))
+		return (1);
+	if (ft_strstr(str, "<"))
+		return (3);
+	return (0);
 }

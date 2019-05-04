@@ -6,13 +6,13 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 06:05:31 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/03/31 03:17:02 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/04 18:59:02 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_csd(t_printf_params *param)
+int		ft_csd(t_printf_params *param)
 {
 	if (*param->format == 's')
 	{

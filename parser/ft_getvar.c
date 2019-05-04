@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getvar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:18:21 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/03 20:47:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
+
+int			valid_char(char c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (1);
+	return (0);
+}
 
 char		*ft_getvarname(char *str)
 {
@@ -19,7 +26,7 @@ char		*ft_getvarname(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isspace(str[i]) || str[i] == '\"')
+		if (!valid_char(str[i]))
 			break ;
 		i++;
 	}

@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_find_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 03:03:39 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/04 21:50:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-void		ft_free_paths(char ***paths)
+void		ft_free_paths(char **paths)
 {
 	int i;
 
 	i = 0;
-	while ((*paths)[i])
+	while (paths[i])
 	{
-		free((*paths)[i]);
+		free(paths[i]);
 		i++;
 	}
-	free(*paths);
-	paths = NULL;
+	free(paths);
 }
 
 static char	*ft_helper1(char **paths, char *file)
@@ -31,7 +30,7 @@ static char	*ft_helper1(char **paths, char *file)
 	t_stat *stat;
 
 	if (paths)
-		ft_free_paths(&paths);
+		ft_free_paths(paths);
 	if ((stat = ft_exist(file)))
 	{
 		free(stat);
@@ -47,7 +46,7 @@ int			ft_helper2(char **paths, char *file)
 	if ((stat = ft_exist(file)))
 	{
 		if (paths)
-			ft_free_paths(&paths);
+			ft_free_paths(paths);
 		free(stat);
 		return (1);
 	}
@@ -72,12 +71,10 @@ char		*ft_find_file(char *file, t_list *list)
 			fullpath = ft_strjoin(fullpath, file);
 			free(tmp);
 			if (ft_helper2(paths, fullpath))
-			{
 				return (fullpath);
-			}
 			free(fullpath);
 		}
-		ft_free_paths(&paths);
+		ft_free_paths(paths);
 		return (NULL);
 	}
 	else

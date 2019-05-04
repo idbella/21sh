@@ -6,24 +6,25 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:08:07 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/04/20 17:34:47 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_21sh.h"
 
-static void	ft_helper(char *c, int *qoute, int *dqoute)
+static void	ft_helper(char **str, int *i, int *qoute, int *dqoute)
 {
-	if (!*dqoute && !*qoute && ft_isspace(*c))
-		*c = -1;
-	else if (!*qoute && *c == '\"')
+	int index;
+
+	index = *i;
+	if (!*dqoute && !*qoute && ft_isspace((*str)[index]))
+		(*str)[index] = DELEMITER;
+	else if (!*qoute && (*str)[index] == '\"')
 	{
-		*c = -1;
 		*dqoute = !*dqoute;
 	}
-	else if (!*dqoute && *c == '\'')
+	else if (!*dqoute && (*str)[index] == '\'')
 	{
-		*c = -1;
 		*qoute = !*qoute;
 	}
 }
@@ -44,7 +45,7 @@ char		*ft_remove_wsapces(char *str)
 	i = 0;
 	while (result[i])
 	{
-		ft_helper(&result[i], &qoute, &dqoute);
+		ft_helper(&result, &i, &qoute, &dqoute);
 		i++;
 	}
 	return (result);

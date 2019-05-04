@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:52 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:13:35 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/02 22:36:38 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_get_fd_src(char *str)
 {
-	int 	i;
+	int		i;
 	char	*fd;
 
 	i = 0;
@@ -22,31 +22,30 @@ int	ft_get_fd_src(char *str)
 	{
 		if (!ft_isdigit(str[i]))
 			break ;
-        i++;
+		i++;
 	}
 	if (i == 0)
 		return (ft_strchr(str, '>') ? 1 : 0);
 	fd = ft_strsub(str, 0, i);
 	i = ft_atoi(fd);
 	free(fd);
-	return (i);	
+	return (i);
 }
 
 int	ft_get_fd_dest(char *str)
 {
-	int 	i;
-	char	*fd;
+	int		i;
 
 	i = 0;
-	if ((fd = ft_strrchr(str, '&')))
-		fd++;
-	else
-		printf("Unexpected Error : %s\n", str);
-	if (ft_isdigit(fd[0]))
+	if (ft_strrchr(str, '&'))
 	{
-		i = ft_atoi(fd);
+		str = ft_strrchr(str, '&') + 1;
+	}
+	if (ft_isdigit(str[0]))
+	{
+		i = ft_atoi(str);
 	}
 	else
 		return (-1);
-	return (i);	
+	return (i);
 }

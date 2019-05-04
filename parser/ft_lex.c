@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lex.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 22:15:11 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/05 13:46:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/04 21:16:48 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	ft_addfile(t_command *command, char **commands, int i)
 	int			type;
 
 	outfile = (t_outfile *)malloc(sizeof(t_outfile));
-	outfile->name = ft_strdup(commands[i + 1]);
+	outfile->name = ft_remove_qoutes(ft_strdup(commands[i + 1]));
+	ft_unescape(outfile->name);
 	outfile->fd_src = ft_get_fd_src(commands[i]);
+	outfile->close = 0;
 	type = ft_is_redirection(commands[i]);
 	if (type == 3)
 		outfile->open_mode = O_RDONLY;
@@ -31,15 +33,16 @@ void	ft_addfile(t_command *command, char **commands, int i)
 	ft_lstadd(&command->outlist, list);
 }
 
-void	ft_addaggr(t_command *command, char *cmd)
+void	ft_addaggr(t_command *command, char *cmd, char *next)
 {
 	t_outfile	*outfile;
 	t_list		*list;
 
 	outfile = (t_outfile *)malloc(sizeof(t_outfile));
 	outfile->fd_src = ft_get_fd_src(cmd);
-	outfile->fd_dest = ft_get_fd_dest(cmd);
+	outfile->fd_dest = ft_get_fd_dest(next ? next : cmd);
 	outfile->name = NULL;
+	outfile->close = 0;
 	if (outfile->fd_dest == -1)
 		outfile->name = ft_strdup("/dev/null");
 	list = ft_lstnew(NULL, 0);
@@ -47,78 +50,50 @@ void	ft_addaggr(t_command *command, char *cmd)
 	ft_lstadd(&command->outlist, list);
 }
 
-int ft_indexof(char *str, int c)
+int		ft_ontimecheck(t_params *params,
+			t_command *command, char **commands, int *i)
 {
-	int i;
-
-	i = 0;
-	while (str[i])
+	if (ft_is_token(commands[*i]))
 	{
-		if (str[i] == c)
-			return (c);
-		i++;
+		if (ft_strequ(commands[*i], "|")
+			&& (!commands[*i + 1] || command == NULL))
+		{
+			ft_free_tab(commands);
+			return (-1);
+		}
+		else if ((*i = ft_get_redirections(commands,
+								command, *i, params)) < 0)
+		{
+			ft_free_tab(commands);
+			return (-1);
+		}
+		return (1);
 	}
-	return (-1);
+	return (0);
 }
 
-void 	ft_change_alias(char **str, t_params *params)
-{
-	int		pos1;
-	int		pos2;
-	int		pos;
-	char	*key;
-
-	*str = ft_strtrim(*str);
-	pos1 = ft_indexof(*str, ' ');
-	pos2 = ft_indexof(*str, '\t');
-	pos = pos1 < pos2 ? pos1 : pos2;
-	pos = pos < 0 ? pos2 : pos;
-	if (pos > 0)
-	{
-		key = ft_strsub(*str, 0, pos);
-	}
-	else
-		key = *str;
-	if ((key = ft_get_alias(key, params->alias)))
-	{
-		*str = ft_strjoin(key, *str + pos);
-	}
-}
-
-int		ft_lex(char *str, t_list **lst, t_params *params)
+int		ft_lex(char *str, t_params *params)
 {
 	char		**commands;
-	int 		i;
-	t_list		*list;
+	int			i;
 	t_command	*command;
-	
-	ft_change_alias(&str, params);
-	str = ft_remove_wsapces(str);
-	commands = ft_strsplit(str, -1);
-	i = 0;
+	int			return_value;
+
+	commands = ft_getcommands(str);
+	i = -1;
 	command = NULL;
-	while (commands[i])
+	while (commands[++i])
 	{
-		if (ft_is_token(commands[i]))
+		if ((return_value = ft_ontimecheck(params, command, commands, &i)))
 		{
-			if (ft_strequ(commands[i], "|") && !commands[i + 1])
-				return (0);
-			else if ((i = ft_get_redirections(commands, command, i, params)) < 0)
+			if (return_value < 0)
 				return (0);
 		}
 		else
 		{
-			command = (t_command *)malloc(sizeof(t_command));
-			command->herdoc = NULL;
-			list = ft_lstnew(NULL, 0);
-			command->outlist = NULL;
-			if (!(command->argv = ft_get_args(command, commands, &i, params)))
+			if (!ft_addcmd(command, commands, params, &i))
 				return (0);
-			list->content = command;
-			ft_lstadd(lst, list);
 		}
-		i++;
 	}
-	*lst = ft_lstrev(*lst);
 	return (1);
 }

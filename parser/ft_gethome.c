@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gethome.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 00:33:37 by sid-bell          #+#    #+#             */
-/*   Updated: 2019/04/01 22:38:15 by sid-bell         ###   ########.fr       */
+/*   Updated: 2019/05/03 20:25:52 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	*ft_gethome(char *str, t_params *params)
 	while (result[i])
 	{
 		if (!qoute && result[i] == '~' &&
-			((i > 0 && (ft_isspace(result[i - 1]) || ft_is_special_key(result[i - 1]))) || i == 0))
+			((i > 0 && (ft_isspace(result[i - 1]) ||
+				ft_is_special_key(result[i - 1]))) || i == 0))
 		{
 			result = ft_replace_char(result, nv, i);
 			i += ft_strlen(nv) - 1;
